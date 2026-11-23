@@ -21,7 +21,7 @@ def leer_sensores():
 
     # Lectura del LDR
     valor_ldr = sensor_ldr.read_u16()
-    luminosidad = (valor_ldr / 65535) * 100
+    luminosidad = 100 - (valor_ldr / 65535) * 100
 
     # Validación básica
     if not (-40 <= temperatura <= 80):

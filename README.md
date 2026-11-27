@@ -67,7 +67,7 @@ Los comandos remotos seguirán el camino inverso desde Adafruit IO hacia el disp
 
 ## 👨‍💻 Distribución del equipo
 
-**Integrante 1 — Sensores y monitoreo**
+**David Pérez — Sensores y monitoreo**
 
 Responsable de configurar y programar los sensores, obtener lecturas ambientales y detectar condiciones que requieran acciones automáticas.
 
@@ -96,7 +96,7 @@ Invernadero-Inteligente-IoT/
 │   ├── actuadores.py
 │   └── mqtt_client.py
 ├── backend/
-│   ├── main.py
+│   ├── api.py
 │   ├── database.py
 │   ├── mqtt_listener.py
 │   └── cloud_bridge.py

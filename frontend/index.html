@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenHouse IoT</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<aside class="sidebar">
+    <div class="brand">
+        <i data-lucide="sprout"></i>
+        <div>
+            <h2>GreenHouse</h2>
+            <small>INTELLIGENT IoT</small>
+        </div>
+    </div>
+
+    <span class="menu-label">MENÚ PRINCIPAL</span>
+
+    <nav>
+        <a href="#inicio" class="active">
+            <i data-lucide="layout-dashboard"></i> Dashboard
+        </a>
+        <a href="#historicos">
+            <i data-lucide="chart-no-axes-combined"></i> Históricos
+        </a>
+        <a href="#actuadores">
+            <i data-lucide="sliders-horizontal"></i> Actuadores
+        </a>
+        <a href="#eventos">
+            <i data-lucide="bell"></i> Eventos
+        </a>
+    </nav>
+
+    <div class="device">
+        <i data-lucide="cpu"></i>
+        <strong>Raspberry Pi Pico W</strong>
+        <small>invernadero-01</small>
+    </div>
+
+    <footer>UTP · Desarrollo de Software VIII</footer>
+</aside>
+
+<main id="inicio">
+
+    <header>
+        <div>
+            <span class="eyebrow">CENTRO DE MONITOREO</span>
+            <h1>Invernadero inteligente</h1>
+            <p>Supervisa y controla tu entorno en tiempo real.</p>
+        </div>
+        <div id="conexion" class="connection">
+            Conectando...
+        </div>
+    </header>
+
+    <section class="hero">
+        <div>
+            <span class="eyebrow">SMART GREENHOUSE SYSTEM</span>
+            <h2>Cultivando el futuro.</h2>
+            <p>Tecnología IoT para el monitoreo y control ambiental.</p>
+            <small id="actualizacion">Esperando lecturas...</small>
+        </div>
+        <i data-lucide="leaf" class="hero-icon"></i>
+    </section>
+
+    <h2 class="section-title">Condiciones ambientales</h2>
+
+    <section class="metrics">
+
+        <article class="card metric temperature">
+            <div class="metric-icon">
+                <i data-lucide="thermometer"></i>
+            </div>
+            <p>Temperatura</p>
+            <h2><span id="temperatura">--</span><small> °C</small></h2>
+            <div class="progress"><div id="barra-temp"></div></div>
+            <small id="alerta-temp">Esperando datos</small>
+        </article>
+
+        <article class="card metric humidity">
+            <div class="metric-icon">
+                <i data-lucide="droplets"></i>
+            </div>
+            <p>Humedad ambiental</p>
+            <h2><span id="humedad">--</span><small> %</small></h2>
+            <div class="progress"><div id="barra-hum"></div></div>
+            <small>Humedad relativa</small>
+        </article>
+
+        <article class="card metric light">
+            <div class="metric-icon">
+                <i data-lucide="sun"></i>
+            </div>
+            <p>Luminosidad</p>
+            <h2><span id="luminosidad">--</span><small> %</small></h2>
+            <div class="progress"><div id="barra-luz"></div></div>
+            <small id="alerta-luz">Esperando datos</small>
+        </article>
+
+    </section>
+
+    <section class="workspace">
+
+        <article class="card" id="historicos">
+            <div class="card-heading">
+                <div>
+                    <h2>Historial ambiental</h2>
+                    <p>Últimas 60 lecturas registradas</p>
+                </div>
+                <i data-lucide="activity"></i>
+            </div>
+            <div class="chart-container">
+                <canvas id="grafica"></canvas>
+            </div>
+        </article>
+
+        <article class="card" id="actuadores">
+            <div class="card-heading">
+                <div>
+                    <h2>Control remoto</h2>
+                    <p>Actuadores del invernadero</p>
+                </div>
+                <i data-lucide="settings-2"></i>
+            </div>
+
+            <div class="actuator">
+                <div class="actuator-icon">
+                    <i data-lucide="fan"></i>
+                </div>
+                <div class="actuator-info">
+                    <strong>Ventilación</strong>
+                    <small id="estado-ventilacion">Desconocido</small>
+                </div>
+                <button class="switch" id="btn-ventilacion"
+                    onclick="alternar('ventilacion')"
+                    aria-label="Alternar ventilación" disabled>
+                    <span></span>
+                </button>
+            </div>
+
+            <div class="actuator">
+                <div class="actuator-icon">
+                    <i data-lucide="lightbulb"></i>
+                </div>
+                <div class="actuator-info">
+                    <strong>Iluminación</strong>
+                    <small id="estado-iluminacion">Desconocido</small>
+                </div>
+                <button class="switch" id="btn-iluminacion"
+                    onclick="alternar('iluminacion')"
+                    aria-label="Alternar iluminación" disabled>
+                    <span></span>
+                </button>
+            </div>
+
+            <div class="actuator">
+                <div class="actuator-icon">
+                    <i data-lucide="droplets"></i>
+                </div>
+                <div class="actuator-info">
+                    <strong>Riego</strong>
+                    <small id="estado-riego">Desconocido</small>
+                </div>
+                <button class="water-button" id="btn-riego"
+                    onclick="enviarComando('riego','PULSE')" disabled>
+                    Activar
+                </button>
+            </div>
+
+            <p class="hint">El riego se activa durante 5 segundos.</p>
+        </article>
+
+    </section>
+
+    <section class="card" id="eventos">
+        <div class="card-heading">
+            <div>
+                <h2>Registro de eventos</h2>
+                <p>Alertas y actividad reciente del sistema</p>
+            </div>
+            <i data-lucide="clipboard-list"></i>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Evento</th>
+                        <th>Descripción</th>
+                        <th>Fecha y hora</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-eventos"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        GreenHouse IoT · Proyecto académico UTP · 2026
+    </footer>
+
+</main>
+
+<div id="notificacion" role="status"></div>
+
+<script src="/js/app.js"></script>
+<script>
+    if (window.lucide) lucide.createIcons();
+</script>
+</body>
+</html>
